@@ -66,6 +66,7 @@ class lib_util_array
     }
 
     /**
+     * todo 需要写的更健壮些
      * 插入数组元素
      */
     static function insertArray($data, $pos, $value)
@@ -154,14 +155,37 @@ class lib_util_array
 
     }
 
-    static function randArray(array $data){
-        if(!empty($data)){
-            $key = array_rand($data);
-            return $data[$key];
+    /**
+     * 随机数组，根据随机数量，取出随机元素
+     * array_rand()函数只能取出键名
+     * 我是懒人，所以直接用随机出键值
+     */
+    static function randArray(array $data,$num = 1){
+        if(!empty($data) && $num >=1){
+            $num = (int)$num;
+            if($num >= count($data)){
+                return $data;
+            }
+            if($num == 1){
+                $key = array_rand($data);
+                return $data[$key];
+            }else{
+                $result = array();
+                $keys = array_rand($data,$num);
+                foreach($keys as $v){
+                    $result[] = $data[$v];
+                }
+                return $result;
+            }
         }
         return null;
     }
 
+    /**
+     * 更换数组中的键名
+     * 分深、浅两种替换
+     * 分保留、不保留键名两种替换
+     */
     static function replaceArrayKey(array $data, $ori_key, $replace_key, $save = true, $deep = true){
         if(!empty($data) && $ori_key && $replace_key){
             if($deep){
@@ -194,6 +218,17 @@ class lib_util_array
         return $data;
     }
 
+    /**
+     * 替换键值，分深、浅两种替换
+     */
+    static function replaceArrayValue(array $data, $ori_value, $replace_value, $deep = true){
+    
+    }
+
+    /**
+     * 获取数组中某一个节点的键值
+     * 多用于二维数组获取节点值
+     */
     static function getOneNode(array $data, $row, $col)
     {
         $result = null;
