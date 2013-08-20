@@ -129,6 +129,7 @@ class lib_util_array
     }
 
     /**根据数值分割数组
+     * 该数组是一维的，切割后变成二维   
      * @param $data
      * @param $splitNum
      * @return array
@@ -151,6 +152,46 @@ class lib_util_array
     static function diffArray(array $arr1, array $arr2)
     {
 
+    }
+
+    static function randArray(array $data){
+        if(!empty($data)){
+            $key = array_rand($data);
+            return $data[$key];
+        }
+        return null;
+    }
+
+    static function replaceArrayKey(array $data, $ori_key, $replace_key, $save = true, $deep = true){
+        if(!empty($data) && $ori_key && $replace_key){
+            if($deep){
+                foreach($data as $k=>$v){
+                    if($k == $ori_key){
+                        if($save){
+                            $data[$replace_key] = $v;
+                        }else{
+                            unset($data[$k]);
+                            $data[$replace_key] = $v;
+                        }
+                    }else{
+                        if(is_array($v)){
+                            $data[$k] = self::replaceArrayKey($v,$ori_key,$replace_key,$save,$deep);
+                        }
+                    }
+                } 
+            }else{
+                if(isset($data[$ori_key])){
+                    $ori_temp_data = $data[$ori_key];
+                    if($save){
+                        $data[$replace_key] = $ori_temp_data; 
+                    }else{
+                        unset($data[$ori_key]);
+                        $data[$replace_key] = $ori_temp_data; 
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
     static function getOneNode(array $data, $row, $col)
