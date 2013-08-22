@@ -64,6 +64,8 @@ class antl
                 return PATH_TPL . $rs . DS . $act . '.php';
         case 'request':
             return PATH_REQUEST . $rs . DS . $act . '.php';
+        case 'module':
+            return PATH_MODULE . $rs . '.php';
         case 'file':
             return PATH_ROOT.$rs;
         default:
