@@ -6,6 +6,7 @@
 class lib_datasource_drivers_pdo{
     private $config = null;
     private $is_connect = false;
+    private $db_type = 'mysql';
     public $driver = null;
     public $stmt = null;
 
@@ -25,6 +26,7 @@ class lib_datasource_drivers_pdo{
             $dbname = $this->config['db_name'];
             $dbhost = $this->config['db_host']; 
             $dbtype = $this->config['db_type'];
+            $this->db_type = $dbtype;
             $dblink = "$dbtype:host=$dbhost;dbname=$dbname"; 
             try{
                 $this->driver = new PDO($dblink,$user,$pass);
@@ -75,5 +77,9 @@ class lib_datasource_drivers_pdo{
 
     public function rollBack(){
         return $this->driver->rollBack();
+    }
+
+    public function getDbType(){
+        return $this->db_type;
     }
 }

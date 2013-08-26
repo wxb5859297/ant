@@ -2,10 +2,9 @@
 class lib_datasource_db implements lib_datasource_interface
 {
     protected static $instance = null;
-    protected static $sqlRecord = array();
-    public $dbs = array();
-    public $db = array();
-    public $sqls = array();
+    private $sqls = array();
+    private $dbs = array();
+    private $db = null;
 
     private function __construct(){}
 
@@ -58,7 +57,6 @@ class lib_datasource_db implements lib_datasource_interface
         } else {
             $sql = array_shift($args);
         }
-        self::$sqlRecord[] = $sql;
         $this->connect();
         $stmt = $this->db->prepare($sql);
         if (!$stmt) {
@@ -78,7 +76,7 @@ class lib_datasource_db implements lib_datasource_interface
             if (defined('DEBUG')) {
                 echo("<br/>Failed to execute:<b style='color:red;'>" . $sql . "</b><br>");
                 var_dump($this->db->driver->errorInfo(),$args);
-                die;
+die;
             }
             return false;
         }
@@ -90,9 +88,9 @@ class lib_datasource_db implements lib_datasource_interface
         return $this->stmt;
     }
 
-    static function getSqlRecord()
+    public function getSqlRecord()
     {
-        return self::$sqlRecord;
+        return $this->sqls;
     }
 
     public function select()
@@ -123,8 +121,8 @@ class lib_datasource_db implements lib_datasource_interface
     public function selectOne()
     {
         $args = func_get_args();
-        $r = call_user_func_array(array($this, 'select'), $args);
-        return (!empty($r) ? $r[0] : false);
+        $rs = call_user_func_array(array($this, 'select'), $args);
+        return (!empty($rs) ? $rs[0] : false);
     }
 
     //只取一条数据和它的第一列
@@ -156,11 +154,34 @@ class lib_datasource_db implements lib_datasource_interface
         return ($rs === false) ? $rs : $this->db->getAffectRow();
     }
 
+    public function selectLimit($sql, $start, $limit)
+    {
+        $db_type = $this->db->getDbType();
+        if($db_type == 'mysql'){
+
+        }else{ //oracle
+            $end = $start + $limit;
+            $sql = "
+                select * from (
+                    select o.*,ROWNUM RN
+                    from ($sql) o
+                    where ROWNUM <= $end
+                ) where RN > $start
+                ";
+        }
+        $args = func_get_args();
+
+        array_shift($args);
+        array_shift($args);
+        array_shift($args);
+        array_unshift($args, $sql);
+        return call_user_func_array(array($this, 'select'), $args);
+    }
+
     public function beginTransaction()
     {
         $this->connect();
         $rs = $this->db->beginTransaction();
-        var_dump($rs);
     }
 
     public function commit()
@@ -170,6 +191,6 @@ class lib_datasource_db implements lib_datasource_interface
 
     public function rollBack()
     {
-       $this->db->rollBack(); 
+        $this->db->rollBack(); 
     }
 }

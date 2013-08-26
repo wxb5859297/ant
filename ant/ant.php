@@ -43,13 +43,12 @@ class ant
         if (!defined('PATH_RS')) define('PATH_RS', PATH_ROOT . 'rs' . DS);
         if (!defined('PATH_CACHE')) define('PATH_CACHE', PATH_ROOT . 'cache' . DS);
         if (!defined('PATH_REQUEST')) define('PATH_REQUEST', PATH_ROOT . 'request' . DS);
-        if (defined('VIEW_NAME')){
-            $view_name = VIEW_NAME;
-        }else{
-            $view_name = 'view';
-        }
+        $view_name = (defined('VIEW_NAME')) ? VIEW_NAME : 'view';
         if (!defined('PATH_VIEW')) define('PATH_VIEW', PATH_ROOT . $view_name . DS);
         if (!defined('PATH_TPL')) define('PATH_TPL', PATH_VIEW . 'html' . DS);
+        if (!defined('PATH_CONFIG')) define('PATH_CONFIG', PATH_ROOT . 'config' . DS);
+        if (!defined('APP_CONFIG')) define('APP_CONFIG', PATH_CONFIG . 'application.ini');
+        if (!defined('SYSTEM_CONFIG')) define('SYSTEM_CONFIG', PATH_CONFIG . 'system.ini');
         if (!defined('DOCUMENT_ROOT')) define('DOCUMENT_ROOT',$_SERVER['DOCUMENT_ROOT']);
         if (!defined('URL_ROOT')) define('URL_ROOT', '');
         define('PATH_ANT', dirname(__FILE__) . DS);
@@ -260,5 +259,20 @@ class ant
     {
         self::$error->printErrorStack();
     }
+    
+    public function getAppConfig()
+    {
+        $config = parse_ini_file(APP_CONFIG,true);        
+        return $config;
+    }
 
+    public function getDbConfig(){
+        $rs = $this->getAppConfig();
+        return $rs['db_info'];
+    }
+
+    public function getCacheConfig(){
+        $rs = $this->getAppConfig();
+        return $rs['cache_info'];
+    }
 }
