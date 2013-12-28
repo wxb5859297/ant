@@ -13,7 +13,7 @@ class lib_util_file
      * @param array $extra
      * @return array|bool
      */
-    static function readFileData($file, $length = 4096, $extra = array())
+    static function read($file, $length = 4096, $extra = array())
     {
         if (file_exists($file)) {
             $base_file = basename($file);
@@ -41,24 +41,19 @@ class lib_util_file
         return false;
     }
 
-    static function rmFile()
-    {
-
-    }
-
-    static function rmPath()
+    static function rm()
     {
 
     }
 
     /**
-     * åˆ†å‰²å­—ç¬¦
+     * ·Ö¸î×Ö·û´®
      */
     static function splitString()
     {
     }
 
-    static function writeFile($file, $string = '')
+    static function write($file, $string = '')
     {
         if ($handle = fopen($file, 'a')) {
             if (is_writable($file) && file_exists($file)) {
