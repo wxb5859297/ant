@@ -1,32 +1,32 @@
 <?php
 /**
- * antc             ×ÊÔ´»ùÀà£¬¿ØÖÆÄ£¿éºÍÊÓÍ¼²¿·Ö
+ * antc             èµ„æºåŸºç±»ï¼Œæ§åˆ¶æ¨¡å—å’Œè§†å›¾éƒ¨åˆ†
  * @name            antc
  */
 class antc
 {
     /**
-     * ×ÔÖ´ĞĞ·µ»ØÖµ
+     * è‡ªæ‰§è¡Œè¿”å›å€¼
      */
     public $self_execute_result = false;
     /**
-     * ÊÇ·ñÓµÓĞÊÓÍ¼£¬Ò»Ğ©AJAXÇëÇó»òÕß½Ó¿Ú£¬ÍùÍùÃ»ÓĞÊÓÍ¼
+     * æ˜¯å¦æ‹¥æœ‰è§†å›¾ï¼Œä¸€äº›AJAXè¯·æ±‚æˆ–è€…æ¥å£ï¼Œå¾€å¾€æ²¡æœ‰è§†å›¾
      * @var bool
      */
     protected $has_view = true;
     /**
-     * ±£´æĞèÒªÕ¹Ê¾µÄÊı¾İ
+     * ä¿å­˜éœ€è¦å±•ç¤ºçš„æ•°æ®
      * @var array
      */
     public $display_param = array();
     /**
-     * Ä£°åµÄ rs ÓÃÓÚÖ¸¶¨Ä£°åÎ»ÖÃ£¬²»Í¬µÄ¿ØÖÆÆ÷¿ÉÒÔÊ¹ÓÃÏàÍ¬µÄÄ£°å
+     * æ¨¡æ¿çš„ rs ç”¨äºæŒ‡å®šæ¨¡æ¿ä½ç½®ï¼Œä¸åŒçš„æ§åˆ¶å™¨å¯ä»¥ä½¿ç”¨ç›¸åŒçš„æ¨¡æ¿
      * @var null
      */
     public $tprs = null;
     public $tpact = null;
     /**
-     * Ö¸¶¨requestµÄÎ»ÖÃ
+     * Ö¸åˆ¶å®šrequestçš„ä½ç½®
      * @var array|null
      */
     public $request_act = null;
@@ -39,22 +39,22 @@ class antc
      */
     public $request;
     /**
-     * Ã¿¸ö»º´æÄ¿Â¼ÖĞµÄÎÄ¼şÊıÁ¿
+     * æ¯ä¸ªç¼“å­˜æ–‡ä»¶ä¸ªæ•°
      * @var int
      */
     public $cache_page = 50;
     /**
-     * »º´æÊ±¼ä³¤¶Ì
+     * ç¼“å­˜æ—¶é—´é•¿çŸ­ï¼Œ0ï¼šä¸ç¼“å­˜
      * @var int
      */
     public $cache = 0;
     /**
-     * »º´æÎÄ¼şÃû
+     * ç¼“å­˜æ–‡ä»¶å
      * @var null
      */
     public $cache_filename = '';
     /**
-     * ÊÇ·ñÔÊĞíĞ´»º´æ
+     * æ˜¯å¦å…è®¸å†™ç¼“å­˜
      * @var bool
      */
     public $writeable = true;
@@ -63,9 +63,10 @@ class antc
     public $act;
 
     /**
-     * ÓÉÓÚ¾²Ì¬º¯ÊırunµÄÊµÏÖ¹ıÓÚ¸´ÔÓ£¬¶ÔÏÖÓĞ´úÂë¸Ä¶¯ºÜ´ó£¬ËùÒÔ×îÖÕ²ÉÓÃÈßÓàÉú³É¶ÔÏóµÄ·½Ê½À´ÊµÏÖÕâ¸ö¹¦ÄÜ
-     * Í¨¹ı:
-     * new rs_index_help(true);À´×ÔÖ´ĞĞrs=index&act=helpÕâ¸ö¿ØÖÆÆ÷¶ÔÏó
+     * ç”±äºé™æ€å‡½æ•°runçš„å®ç°è¿‡äºå¤æ‚ï¼Œå¯¹ç°æœ‰ä»£ç æ”¹åŠ¨å¾ˆå¤§ï¼Œæ‰€ä»¥æœ€ç»ˆé‡‡ç”¨å†—ä½™ç”Ÿæˆå¯¹
+    è±¡çš„æ–¹å¼æ¥å®ç°è¿™ä¸ªåŠŸèƒ½
+     * é€šè¿‡:
+     * new rs_index_help(true);æ¥è‡ªæ‰§è¡Œrs=index&act=helpè¿™ä¸ªæ§åˆ¶å™¨å¯¹è±¡
      * @param bool $self_execute
      * @param array $display_param
      */
@@ -103,7 +104,7 @@ class antc
 
     public function hasView()
     {
-        return $this->has_view;    
+        return $this->has_view;
     }
 
     public function exec(antr $r)
@@ -152,15 +153,15 @@ class antc
         $class_name = get_class($this);
         if ($this->cache <= 0) return false;
 
-        $cache_id = urlencode(urldecode($r->getValue('cache_id'))); //±ÜÃâÖØ¸´urlencode
+        $cache_id = urlencode(urldecode($r->getValue('cache_id'))); //é¿å…é‡å¤urlencode
 
         $page_id = intval($r->getValue('page_id'));
 
         $hd_is_cache = intval($r->getValue('hd_is_cache'));
-        if($class_name == 'rs_index_blocklucklist' && $hd_is_cache != 1) return false;
+        if ($class_name == 'rs_index_blocklucklist' && $hd_is_cache != 1) return false;
 
         if ($cache_id) {
-            $dir = $page_id ? (PATH_CACHE . $class_name . DS .$cache_id  . DS) : (PATH_CACHE . $class_name . DS);
+            $dir = $page_id ? (PATH_CACHE . $class_name . DS . $cache_id . DS) : (PATH_CACHE . $class_name . DS);
             $file_url = $page_id ? $page_id : $cache_id;
         } else {
             $dir = $page_id ? (PATH_CACHE . $class_name . DS) : PATH_CACHE;
@@ -176,39 +177,32 @@ class antc
                 $this->cache = 0;
             }
         }
-        //ÏÔÊ¾»º´æµØÖ· && $_SERVER['HTTP_HOST'] == 'test.dou.pps.tv'
-        if ($_GET['show_cache_path']==1) {
+        if ($_GET['show_cache_path'] == 1) {
             echo $fn;
         }
 
         if (file_exists($fn)) {
             $fp = fopen($fn, 'r');
             if (flock($fp, LOCK_EX | LOCK_NB)) {
-                if ($r->get('ant_clear_cache')->value() == 1 && '180.168.84.109' == $this->returnIp()) {
-                    //ºóÌ¨À´µÄÇå»º´æµÄ·ÃÎÊ
+                if ($r->get('ant_clear_cache')->value() == 1) {
                 } else {
                     $time = time() - filemtime($fn);
-                    if($class_name == 'rs_index_blocklucklist'){
-                        //ajaxÇëÇó£¬ĞèÒª×ªÂë
-                        echo iconv('gbk','utf-8',file_get_contents($fn));
+                    if ($class_name == 'rs_index_blocklucklist') {
+                        //ajaxè¯·æ±‚ï¼Œéœ€è¦è½¬ç 
+                        echo iconv('gbk', 'utf-8', file_get_contents($fn));
                         return true;
                     }
-                    if (($time / 60) <= $this->cache){
+                    if (($time / 60) <= $this->cache) {
                         echo file_get_contents($fn);
                         return true;
                     }
                 }
                 fclose($fp);
                 @unlink($fn);
-                $this->writeable = true; //ÊÚÈ¨Ğ´
+                $this->writeable = true; //æˆæƒå†™
             } else {
-                $this->writeable = false; //²»ÊÚÈ¨Ğ´
-                if($class_name == 'rs_index_blocklucklist'){
-                    //ajaxÇëÇó£¬ĞèÒª×ªÂë
-                    echo iconv('gbk', 'utf-8', file_get_contents($fn));
-                } else {
-                    echo file_get_contents($fn);
-                }//Ö»¹Ü¶Á
+                $this->writeable = false; //ä¸æˆæƒå†™
+                echo file_get_contents($fn);
                 return true;
             }
         }
@@ -223,7 +217,7 @@ class antc
     }
 
     /**
-     * µ÷ÓÃ´Ëº¯Êı£¬È·±£JSON¶ÔÏó¸ñÊ½¹Ì¶¨
+     * è°ƒç”¨æ­¤å‡½æ•°ï¼Œç¡®ä¿JSONå¯¹è±¡æ ¼å¼å›ºå®š
      * @param  $success
      * @param string $data
      * @param null $message
@@ -260,7 +254,7 @@ class antc
     }
 
     /**
-     * »ñÈ¡IP
+     * è·å–IP
      * @static
      * @return string
      */
@@ -286,8 +280,8 @@ class antc
     }
 
     /**
-     * ·µ»Ø¸ñÊ½»¯ºóµÄ±ê×¼url
-     * ºÜ¶àÊ±ºòÎÒÃÇ»áÔÚurlÖĞ²»Ğ´index£¬µ«ÊÇÕâÀï»á²¹ÉÏ
+     * è¿”å›æ ¼å¼åŒ–åçš„æ ‡å‡†url
+     * å¾ˆå¤šæ—¶å€™æˆ‘ä»¬ä¼šåœ¨urlä¸­ä¸å†™indexï¼Œä½†æ˜¯è¿™é‡Œä¼šè¡¥ä¸Š
      * @static
      * @return string
      */
@@ -311,12 +305,13 @@ class antc
     }
 
     /**
-     * antÖ§³ÖÕâÑùµ÷ÓÃÒ»¸ö¿ØÖÆÆ÷
-     * ant::action('index','help');//µ÷ÓÃ°ïÖúÒ³Ãæ,µ«ÊÇÕâ¸öÒ³ÃæµÄ¿ØÖÆÆ÷ÔÚÄÄÀïÎŞ·¨¶¨Î»£¬ÓÈÆäÊÇ(IDE,ÏîÄ¿×éµÄĞÂÈË)
-     * ÕâÀïÌá¹©Ò»ÖÖ¸ü¼ÓÈİÒ×ÔÄ¶ÁµÄ´úÂëÊéĞ´·½Ê½
-     * rs_index_help::run();//´úÂëÔÚrs/index/help.php
-     * Á½ÖÖ·½·¨¸÷ÓĞºÃ´¦£¬µ«ÊÇÔÚ¿ØÖÆÆ÷ÃüÃû²»»á¸Ä±äµÄÇé¿öÏÂ£¬µÚ¶şÖÖ½«¸ü¼ÓÓÑºÃ
-     * µ«ÊÇÄã±ØĞë¸´ÖÆÕâ¸ö´úÂëµ½Ã¿¸ö¿ØÖÆÆ÷ÖĞ£¬·ñÔò__CLASS__ÎŞ·¨Õı³£Ê¹ÓÃ£¬Ï£ÍûÖ®ºóPHPÄÜ¹»Ìá¹©¸üºÃµÄÖ§³Ö
+     * antæ”¯æŒè¿™æ ·è°ƒç”¨ä¸€ä¸ªæ§åˆ¶å™¨
+     * ant::action('index','help');//è°ƒç”¨å¸®åŠ©é¡µé¢,ä½†æ˜¯è¿™ä¸ªé¡µé¢çš„æ§åˆ¶å™¨åœ¨å“ªé‡Œæ— æ³•å®šä½ï¼Œå°¤å…¶
+    æ˜¯(IDE,é¡¹ç›®ç»„çš„æ–°äºº)
+     * è¿™é‡Œæä¾›ä¸€ç§æ›´åŠ å®¹æ˜“é˜…è¯»çš„ä»£ç ä¹¦å†™æ–¹å¼
+     * rs_index_help::run();//ä»£ç åœ¨rs/index/help.php
+     * ä¸¤ç§æ–¹æ³•å„æœ‰å¥½å¤„ï¼Œä½†æ˜¯åœ¨æ§åˆ¶å™¨å‘½åä¸ä¼šæ”¹å˜çš„æƒ…å†µä¸‹ï¼Œç¬¬äºŒç§å°†æ›´åŠ å‹å¥½
+     * ä½†æ˜¯ä½ å¿…é¡»å¤åˆ¶è¿™ä¸ªä»£ç åˆ°æ¯ä¸ªæ§åˆ¶å™¨ä¸­ï¼Œå¦åˆ™__CLASS__æ— æ³•æ­£å¸¸ä½¿ç”¨ï¼Œå¸Œæœ›ä¹‹åPHPèƒ½å¤Ÿæ>ä¾›æ›´å¥½çš„æ”¯æŒ
      *
      * @static
      * @param array $display_param

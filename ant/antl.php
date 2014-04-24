@@ -1,7 +1,7 @@
 <?php
 /*
  * ant loader
- * ¸ºÔð¼ÓÔØ¸÷ÖÖÎÄ¼þ
+ * è‡ªåŠ¨åŠ è½½å™¨
  */
 class antl
 {
@@ -9,30 +9,29 @@ class antl
     public static $loadFiles = array();
     public $display_data;
 
-    private function __construct(){
+    private function __construct()
+    {
     }
+
     /**
      * @static
      * @return antl
      */
     public static function getInstance()
     {
-        if (self::$instance == null){
+        if (self::$instance == null) {
             self::$instance = new self();
-        } 
+        }
         return self::$instance;
     }
 
     /**
-     * load
-     * ÓÃÓÚÉú³É¿ØÖÆÆ÷£¬Ä£¿é£¬ÊÓÍ¼µÄÔØÈëµØÖ·²¢ÔØÈë,Ò²¹æ¶¨ÁË¿ò¼ÜºÍÏîÄ¿µÄÄ¿Â¼½á¹¹
-     * @name        load
-     * @param    $__type ×Ö·û´®,È¡ÖµÎª act,tpl,cache,request,module
-     * @param    $rs ×ÊÔ´
-     * @param    $act ¿ØÖÆÆ÷
-     * @access    public
-     * @return     ¾ø¶ÔÂ·¾¶£¬Ê§°Ü·µ»Øfalse
-     * antl::getInstance()->load('file','file/gameconfig/212_interface.php');
+     * @param $type
+     * @param $rs
+     * @param string $act
+     * @param null $data
+     * @return bool|string  ç»å¯¹è·¯å¾„ï¼Œå¤±è´¥è¿”å›žfalse
+     *
      */
     public function load($type, $rs, $act = '', $data = null)
     {
@@ -43,7 +42,7 @@ class antl
                 $this->display_data = $data;
                 $display_param = $data;
             }
-            if(!isset(self::$loadFiles[$file])){
+            if (!isset(self::$loadFiles[$file])) {
                 self::$loadFiles[md5($file)] = $file;
                 include $file;
             }
@@ -55,21 +54,21 @@ class antl
     public function pathFix($type, $rs, $act = '', $data = null)
     {
         switch ($type) {
-        case 'act':
-            return PATH_RS . $rs . DS . $act . '.php';
-        case 'tpl':
-            if ($rs === null)
-                return PATH_TPL . $act . '.php';
-            else
-                return PATH_TPL . $rs . DS . $act . '.php';
-        case 'request':
-            return PATH_REQUEST . $rs . DS . $act . '.php';
-        case 'module':
-            return PATH_MODULE . $rs . '.php';
-        case 'file':
-            return PATH_ROOT.$rs;
-        default:
-            return false;
+            case 'act':
+                return PATH_RS . $rs . DS . $act . '.php';
+            case 'tpl':
+                if ($rs === null)
+                    return PATH_TPL . $act . '.php';
+                else
+                    return PATH_TPL . $rs . DS . $act . '.php';
+            case 'request':
+                return PATH_REQUEST . $rs . DS . $act . '.php';
+            case 'module':
+                return PATH_MODULE . $rs . '.php';
+            case 'file':
+                return PATH_ROOT . $rs;
+            default:
+                return false;
         }
     }
 
@@ -81,9 +80,9 @@ class antl
     public static function autoload($c)
     {
         $c = strtolower($c);
-        $path = str_replace('_','/',$c);
-        $file = PATH_ROOT.$path.'.php';
-        if(file_exists($file) && !isset(self::$loadFiles[md5($file)])){
+        $path = str_replace('_', '/', $c);
+        $file = PATH_ROOT . $path . '.php';
+        if (file_exists($file) && !isset(self::$loadFiles[md5($file)])) {
             self::$loadFiles[md5($file)] = $file;
             require $file;
         }
@@ -91,6 +90,6 @@ class antl
 
     public static function useAutoload()
     {
-        spl_autoload_register(array('antl','autoload'));
+        spl_autoload_register(array('antl', 'autoload'));
     }
 }

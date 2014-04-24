@@ -1,40 +1,36 @@
 <?php
 /**
- * ´¦Àí´íÎóµÄÒ»¸öÀà
- * ½«´íÎó±£´æÈëÒ»¸ö¶ÑÕ»½øÐÐ¹ÜÀí·½±ã×·×Ù´íÎóÀ´Ô´
- * ÊÊºÏ×·×ÙÂß¼­´íÎó
- * ÎªÊ²Ã´²»ÓÃtrycatch£¿
- * trycatch²»ÄÜºÜºÃµÄ·â×°£¬ÓÐÊ±ºòÃ»ÓÐ¶Ô´íÎó½øÐÐ¼ÇÂ¼£¬²»ÊÇÒòÎª²»Öªµ½´íÎó¿ÉÄÜ·¢Éú£¬¶øÊÇÌ«Âé·³
+ * ç®€æ˜“çš„é”™è¯¯æ•èŽ·
  */
 class ante
 {
     public function __construct(&$errorStack = array())
     {
-        $this->es = &$errorStack;
+        $this->es = & $errorStack;
     }
 
     public function getError($key = null)
     {
         $e = $this->getErrorInfo($key);
-        if($e)
+        if ($e)
             return $e['error'];
         return false;
     }
 
-    public function setError($error,$errno = '',$key = null)
+    public function setError($error, $errno = '', $key = null)
     {
-        if($key == null){
-            $this->es[] = array('error'=>$error,'errno'=>$errno);
+        if ($key == null) {
+            $this->es[] = array('error' => $error, 'errno' => $errno);
         } else {
-            $this->es[$key] = array('error'=>$error,'errno'=>$errno);
+            $this->es[$key] = array('error' => $error, 'errno' => $errno);
         }
     }
 
     public function &getErrorInfo($key = null)
     {
         $flag = false;
-        if(empty($this->es))return $flag;
-        if($key == null)
+        if (empty($this->es)) return $flag;
+        if ($key == null)
             return $this->es[count($this->es) - 1];
         else
             return $this->es[$key];
@@ -45,25 +41,25 @@ class ante
         return $this->es;
     }
 
-    public function formatErrorStack($type = 'html',$withKey = true)
+    public function formatErrorStack($type = 'html', $withKey = true)
     {
         $w = "\n";
         $s = '';
-        foreach($this->es as $k=>$e) {
-            if($e['errno']) {
-                $s ="Errno:{$e['errno']} - {$e['error']}{$w}".$s;
+        foreach ($this->es as $k => $e) {
+            if ($e['errno']) {
+                $s = "Errno:{$e['errno']} - {$e['error']}{$w}" . $s;
             } else {
-                $s ="{$e['error']}{$w}".$s;
+                $s = "{$e['error']}{$w}" . $s;
             }
 
-            if($withKey) {
-                $s = "[ $k ] ".$s;
+            if ($withKey) {
+                $s = "[ $k ] " . $s;
             }
         }
 
-        if($type == 'html') {
+        if ($type == 'html') {
             $s = htmlspecialchars($s);
-            return str_replace("\n",'<br/>',$s);
+            return str_replace("\n", '<br/>', $s);
         }
 
         return $s;
@@ -76,6 +72,6 @@ class ante
 
     public function printErrorStack()
     {
-        antp::info('wrong','Ant ÄÚ²¿´íÎó','Êä³ö´íÎóÕ»',$this->formatErrorStack('none'));
+        antp::info('wrong', 'Ant å†…éƒ¨é”™è¯¯', 'è¾“å‡ºé”™è¯¯æ ˆ', $this->formatErrorStack('none'));
     }
 }

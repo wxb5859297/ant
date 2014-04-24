@@ -32,7 +32,7 @@ class antp
 
     public function loadTpl()
     {
-        if (!antl::getInstance()->load('tpl', $this->rs, $this->act, $this->params)){
+        if (!antl::getInstance()->load('tpl', $this->rs, $this->act, $this->params)) {
             ant::E('TEMPLETE_NOT_FOUND', array('rs' => $this->rs, 'act' => $this->act));
             return false;
         }
@@ -54,7 +54,7 @@ class antp
         echo '<link rel="stylesheet" type="text/css" href="' . $fn . '" />';
     }
 
-    public static function info($type = "wrong", $title = "Ant ÄÚ²¿´íÎó", $info = "", $detail = "")
+    public static function info($type = "wrong", $title = "Ant å†…éƒ¨é”™è¯¯", $info = "", $detail = "")
     {
         include(PATH_ANT . 'anttpl/info.php');
     }

@@ -1,23 +1,24 @@
 <?php
 /**
- * antr Ant µÄ±ê×¼×é¼þ,ÓÃÓÚ±àÐ´ÊäÈë¹ýÂË
- * ÕâÊÇÍêÈ«¶ÀÁ¢µÄÒ»¸öÀà,²»ÒÀÀµÆäËûantÀà
- * Ã¿Ò»¸ö¹ýÂËº¯Êý¶¼¿ÉÒÔÉèÖÃ
- * 1¡¢ÊÇ·ñÊÔ±ØÐëµÄ£¬±ØÐëµÄ¹ýÂË»áµ¼ÖÂÒì³£Å×³ö£¬²»Ö´ÐÐ½ÓÏÂÀ´µÄÈÎºÎ´úÂë£¬²¢ÇÒÉèÖÃÒ»Ìõ´íÎóÐÅÏ¢£¬
- * ¶ø·Ç±ØÐëµÄ²âÊÔ£¬Èç¹ûÊ§°Ü£¬¿ÉÒÔ¸ø³öÒ»¸öÄ¬ÈÏÖµ»òÕßnull£¬µ«ÊÇ²»»áµ¼ÖÂÅ×³öÒì³££¬ÉèÖÃÒ»Ìõ¾¯¸æÐÅÏ¢
- * 2¡¢ÐÅÏ¢Ä£°å£¬´ó¶àÊýÒÑÓÐ¹ýÂËº¯ÊýÓÐ×Ô¼ºµÄÄ£°å£¬µ«ÊÇÄãÒÀÈ»¿ÉÒÔ×Ô¼ºÉèÖÃ´íÎóÐÅÏ¢Ä£°å
- * ÓÃ·¨
- * ÔÚ²»Í¬½Å±¾ÖÐÊ¹ÓÃ(ant ÖÐµÄÓÃ·¨)
- * $r->post('cid')->int(false,0)->save();//Èç¹ûÊäÈë²»ÊÇÒ»¸öÕûÊý£¬ÓÃ0×öÄ¬ÈÏÖµ
+ * antr Ant çš„æ ‡å‡†ç»„ä»¶,ç”¨äºŽç¼–å†™è¾“å…¥è¿‡æ»¤
+ * è¿™æ˜¯å®Œå…¨ç‹¬ç«‹çš„ä¸€ä¸ªç±»,ä¸ä¾èµ–å…¶ä»–antç±»
+ * æ¯ä¸€ä¸ªè¿‡æ»¤å‡½æ•°éƒ½å¯ä»¥è®¾ç½®
+ * 1ã€æ˜¯å¦è¯•å¿…é¡»çš„ï¼Œå¿…é¡»çš„è¿‡æ»¤ä¼šå¯¼è‡´å¼‚å¸¸æŠ›å‡ºï¼Œä¸æ‰§è¡ŒæŽ¥ä¸‹æ¥çš„ä»»ä½•ä»£ç ï¼Œå¹¶ä¸”è®¾ç½®ä¸€æ¡é”™è¯¯ä¿¡æ¯
+ï¼Œ
+ * è€Œéžå¿…é¡»çš„æµ‹è¯•ï¼Œå¦‚æžœå¤±è´¥ï¼Œå¯ä»¥ç»™å‡ºä¸€ä¸ªé»˜è®¤å€¼æˆ–è€…nullï¼Œä½†æ˜¯ä¸ä¼šå¯¼è‡´æŠ›å‡ºå¼‚å¸¸ï¼Œè®¾ç½®ä¸€æ¡è­¦>å‘Šä¿¡æ¯
+ * 2ã€ä¿¡æ¯æ¨¡æ¿ï¼Œå¤§å¤šæ•°å·²æœ‰è¿‡æ»¤å‡½æ•°æœ‰è‡ªå·±çš„æ¨¡æ¿ï¼Œä½†æ˜¯ä½ ä¾ç„¶å¯ä»¥è‡ªå·±è®¾ç½®é”™è¯¯ä¿¡æ¯æ¨¡æ¿
+ * ç”¨æ³•
+ * åœ¨ä¸åŒè„šæœ¬ä¸­ä½¿ç”¨(ant ä¸­çš„ç”¨æ³•)
+ * $r->post('cid')->int(false,0)->save();//å¦‚æžœè¾“å…¥ä¸æ˜¯ä¸€ä¸ªæ•´æ•°ï¼Œç”¨0åšé»˜è®¤å€¼
  * echo $r->post('cid')->value();
- * Ö±½Ó»ñÈ¡´¦ÀíºóµÄÖµ
+ * ç›´æŽ¥èŽ·å–å¤„ç†åŽçš„å€¼
  * $r->post('cid')->int(false,0)->save()->value();
- * »ñÈ¡´íÎóÃèÊö
+ * èŽ·å–é”™è¯¯æè¿°
  * $r->post()->getErrorString();
- *
- * ×¢Òâ£º´¦ÀíÍê±ÏºóÖµ±ØÐëµ÷ÓÃsave,ÈÎºÎÒ»¸öº¯Êý¶¼Ó¦¸ÃÔÚ(deal,get,post,cookie)º¯Êý±»µ÷ÓÃºóÊ¹ÓÃ
+ * æ³¨æ„ï¼šå¤„ç†å®Œæ¯•åŽå€¼å¿…é¡»è°ƒç”¨save,ä»»ä½•ä¸€ä¸ªå‡½æ•°éƒ½åº”è¯¥åœ¨(deal,get,post,cookie)å‡½æ•°è¢«è°ƒç”¨åŽä½¿ç”¨
  *
  * @example          $r->get('cid')->int(false,0)->save();$r->value('cid','get');//0
+ *
  */
 class antr
 {
@@ -75,7 +76,7 @@ class antr
             $this->_data[$this->_type] = array();
         }
 
-        $this->_data[$this->_type][$this->_key] = array($this->_val,$this->_name);
+        $this->_data[$this->_type][$this->_key] = array($this->_val, $this->_name);
         return $this;
     }
 
@@ -94,10 +95,12 @@ class antr
         return $this->deal('cookie', $_COOKIE, $key, $name);
     }
 
-    //==== ¹ýÂËÆ÷º¯Êý ============================================================================ 
     /**
-     * ÅÐ¶ÏÒ»¸öÊäÈëÊÇ·ñÊÇintÀàÐÍ£¬¿ÉÒÔÊÇ×Ö·û´®int
-     * @return antr
+     * åˆ¤æ–­ä¸€ä¸ªè¾“å…¥æ˜¯å¦æ˜¯intç±»åž‹ï¼Œå¯ä»¥æ˜¯å­—ç¬¦ä¸²int
+     * @param bool $flag
+     * @param null $error
+     * @param null $errno
+     * @return $this
      */
     public function int($flag = true, $error = null, $errno = null)
     {
@@ -108,9 +111,11 @@ class antr
         return $this;
     }
 
-    /**
-     * ÑéÖ¤¿ÕÊäÈë£¬°üÀ¨¿Õ×Ö·û³¤¶ÈºÍÎ´ÉèÖÃµÄÇé¿ö¶¼Ëã
-     * @return antr
+    /*
+     * éªŒè¯ç©ºè¾“å…¥ï¼ŒåŒ…æ‹¬ç©ºå­—ç¬¦é•¿åº¦å’Œæœªè®¾ç½®çš„æƒ…å†µéƒ½ç®—
+     * @param null $error
+     * @param null $errno
+     * @return $this
      */
     public function isEmpty($flag = true, $error = null, $errno = null)
     {
@@ -122,8 +127,11 @@ class antr
     }
 
     /**
-     * ÑéÖ¤Êý×ÖÊäÈë
-     * @return antr
+     * éªŒè¯æ•°å­—è¾“å…¥
+     * @param bool $flag
+     * @param null $error
+     * @param null $errno
+     * @return $this
      */
     public function number($flag = true, $error = null, $errno = null)
     {
@@ -136,9 +144,13 @@ class antr
     }
 
     /**
-     * ÑéÖ¤×Ö·û´®³¤¶È,ascii
-     * @return antr
-     *
+     * éªŒè¯å­—ç¬¦ä¸²é•¿åº¦,ascii
+     * @param $flag
+     * @param $max
+     * @param int $min
+     * @param null $error
+     * @param null $errno
+     * @return $this
      */
     public function length($flag, $max, $min = 1, $error = null, $errno = null)
     {
@@ -151,8 +163,12 @@ class antr
     }
 
     /**
-     * ÑéÖ¤ÏàµÈ
-     * @return antr
+     * éªŒè¯ç›¸ç­‰
+     * @param $val
+     * @param bool $flag
+     * @param null $error
+     * @param null $errno
+     * @return $this
      */
     public function equal($val, $flag = true, $error = null, $errno = null)
     {
@@ -164,8 +180,8 @@ class antr
     }
 
     /**
-     * ¹ýÂË
-     * @return antr
+     * xssè¿‡æ»¤
+     * @return $this
      */
     public function xss()
     {
@@ -177,7 +193,7 @@ class antr
     /**
      * Y-m-d H:i:s 2011-02-09 05:03:06
      * Y-n-j G:i:s 2011-2-9 5:03:06
-     * ÑéÖ¤ÊäÈëµÄÈÕÆÚ¸ñÊ½ÊÇ·ñºÏ·¨,flag = 'now' ¿ÉÒÔ°´format µÃµ½µ±Ç°ÈÕÆÚÄ¬ÈÏÖµ
+     * éªŒè¯è¾“å…¥çš„æ—¥æœŸæ ¼å¼æ˜¯å¦åˆæ³•,flag = 'now' å¯ä»¥æŒ‰format å¾—åˆ°å½“å‰æ—¥æœŸé»˜è®¤å€¼
      */
     public function date($flag = true, $format = 'Y-m-d H:i:s', $error = true, $errno = null)
     {
@@ -190,8 +206,6 @@ class antr
         $this->save();
         return $this;
     }
-
-    //==== ¹ýÂËÆ÷º¯Êý END============================================================================
 
 
     public function setError($flag, $error, $errno, $systpl = null)
@@ -219,7 +233,6 @@ class antr
             if (!isset($this->error[$this->_type])) {
                 $this->error[$this->_type] = new ante();
             }
-            //print_r(get_class_methods($this->error[$this->_type]));die;
             $this->error[$this->_type]->setError($error, $errno, $this->_key);
         }
         if ($flag == true && $this->find_all_errors == false) {
@@ -254,14 +267,14 @@ class antr
              * @var ante $e
              */
             $e = $this->error[$this->_type];
-            return $e->formatErrorStack('html',false);
+            return $e->formatErrorStack('html', false);
         }
         return '';
     }
 
     public function value()
     {
-        return $this->getData($this->_type,$this->_key);
+        return $this->getData($this->_type, $this->_key);
     }
 
     public function setDefault($def)
@@ -274,9 +287,6 @@ class antr
         return $this;
     }
 
-    /**
-     * ÉèÖÃÒ»¸öÖµ£¬²»¹ØÐÄÆäËû
-     */
     public function setValue($value)
     {
         $this->_val = $value;
@@ -289,8 +299,10 @@ class antr
     }
 
     /**
-     * Ê¹ÓÃÏµÍ³×Ô´øµÄº¯Êý×öÒ»Ð©¹ýÂË
-     * @return antr
+     * ä½¿ç”¨ç³»ç»Ÿè‡ªå¸¦çš„å‡½æ•°åšä¸€äº›è¿‡æ»¤
+     * @param $f
+     * @param $args
+     * @return $this
      */
     public function __call($f, $args)
     {
@@ -310,7 +322,7 @@ class antr
         } catch (Exception $e) {
             if (defined('DEBUG')) {
                 echo $this->getErrorString();
-die;
+                die;
             }
             return false;
         }
@@ -364,7 +376,7 @@ die;
         $this->_type = $type;
         $this->_key = $key;
         $this->_val = $this->getData($type, $key);
-        $this->_name = $this->getName($type,$key);
+        $this->_name = $this->getName($type, $key);
         return $this;
     }
 

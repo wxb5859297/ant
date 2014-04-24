@@ -3,14 +3,14 @@
  * Core of Ant
  */
 $path = dirname(__FILE__);
-require $path . '/antconst.php'; //ant¿ò¼Ü³£Á¿
-require $path . '/ante.php'; //ant¿ò¼Ü¶ÑÕ»Æ÷
-require $path . '/antl.php'; //ant¿ò¼Ü¼ÓÔØÆ÷
-require $path . '/antc.php'; //ant¿ò¼Ü¿ØÖÆÆ÷
-require $path . '/antp.php'; //ant¿ò¼ÜÄ£°åÆ÷
-require $path . '/antr.php'; //ant¿ò¼Ü¹ýÂËÆ÷
-//require $path . '/antd.php'; //todo ant¿ò¼ÜÇý¶¯¿ØÖÆÆ÷
-//require $path . '/antcache.php'; //todo ant¿ò¼Ücache²ã
+require $path . '/antconst.php'; //antå¸¸é‡
+require $path . '/ante.php'; //antå¼‚å¸¸æ¨¡å—
+require $path . '/antl.php'; //antåŠ è½½å™¨
+require $path . '/antc.php'; //antæŽ§åˆ¶å™¨
+require $path . '/antp.php'; //antç›®æ ‡åŠ è½½å™¨
+require $path . '/antr.php'; //antè¯·æ±‚è¿‡æ»¤å™¨
+//require $path . '/antd.php'; //todo anté©±åŠ¨å™¨
+//require $path . '/antcache.php'; //todo antç¼“å­˜å™¨
 
 class ant
 {
@@ -49,22 +49,21 @@ class ant
         if (!defined('PATH_CONFIG')) define('PATH_CONFIG', PATH_ROOT . 'config' . DS);
         if (!defined('APP_CONFIG')) define('APP_CONFIG', PATH_CONFIG . 'application.ini');
         if (!defined('SYSTEM_CONFIG')) define('SYSTEM_CONFIG', PATH_CONFIG . 'system.ini');
-        if (!defined('DOCUMENT_ROOT')) define('DOCUMENT_ROOT',$_SERVER['DOCUMENT_ROOT']);
+        if (!defined('DOCUMENT_ROOT')) define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
         if (!defined('URL_ROOT')) define('URL_ROOT', '');
         define('PATH_ANT', dirname(__FILE__) . DS);
         define('ANT_ENTER', basename($_SERVER['SCRIPT_FILENAME']));
-        if(DOCUMENT_ROOT == PATH_ROOT){
-            define('PATH_PROJECT',str_replace(DS,'',str_replace(dirname(PATH_ROOT),'',PATH_ROOT))); 
-        }else{
-            define('PATH_PROJECT', str_replace(DS,'',str_replace(DOCUMENT_ROOT,'',PATH_ROOT)));
+        if (DOCUMENT_ROOT == PATH_ROOT) {
+            define('PATH_PROJECT', str_replace(DS, '', str_replace(dirname(PATH_ROOT), '', PATH_ROOT)));
+        } else {
+            define('PATH_PROJECT', str_replace(DS, '', str_replace(DOCUMENT_ROOT, '', PATH_ROOT)));
         }
 
         $this->ant_info = $GLOBALS['ant'];
     }
 
     /**
-     * ´ÓÕâÀï¿ªÊ¼ÔËÐÐ
-     * @return mix
+     * @return bool|void
      */
     public function run()
     {
@@ -92,18 +91,16 @@ class ant
 
     /**
      * action
-     * ¿ØÖÆÆ÷Ö´ÐÐÄ£¿é£¬¿ÉÒÔ¶ÀÁ¢ÔËÐÐ
-     * @name        action
-     * @param       $rs ×ÊÔ´
-     * @param       $act ¿ØÖÆÆ÷
-     * @param       $displayParam ÐèÒªÔÚÄ£°åÖÐÕ¹Ê¾µÄ²ÎÊý
-     * @param       $type Ö¸¶¨ÇëÇóÀàÐÍ
-     * @access      static
+     * @param $rs èµ„æºå®šä½
+     * @param $act èµ„æºæŽ§åˆ¶
+     * @param array $display_param ç»‘å®šçš„å‚æ•°
+     * @param string $type è¯·æ±‚ç±»åž‹
+     * @return bool|void
      */
     public static function action($rs, $act, $display_param = array(), $type = 'GET')
     {
-        $rs   = strtolower($rs);
-        $act  = strtolower($act);
+        $rs = strtolower($rs);
+        $act = strtolower($act);
         $type = strtolower($type);
 
         if ((self::$auth_function === null) || (self::$auth_function && call_user_func_array(self::$auth_function, array($rs, $act)))) {
@@ -114,7 +111,7 @@ class ant
                      * @var antc $c
                      */
                     $c = new $c(false);
-                    $c->init($rs,$act);
+                    $c->init($rs, $act);
                     $c->display_param = $display_param;
                     $r = self::getRequest($c);
                     $ret = true;
@@ -123,7 +120,7 @@ class ant
                         $ret = $c->exec($r); //execute c
                         $result = ob_get_clean();
                         $c->display(); //execute v
-                        if(!$c->hasView()){
+                        if (!$c->hasView()) {
                             echo $result;
                         }
                     }
@@ -131,7 +128,7 @@ class ant
                 }
             }
 
-            //½öÊÓÍ¼Ò³ÃæÊ¹ÓÃ¸ü¼ÓÇáÁ¿µÄ¶ÔÏó.
+            //æœ‰è§†å›¾åŠ è½½è§†å›¾
             $c = new antp($rs, $act);
             $c->loadData($display_param);
             if (!$c->display())
@@ -142,11 +139,8 @@ class ant
 
     /**
      * getRequest
-     * ½«¹ýÂËÆ÷ÔØÈë£¬¹ýÂËÆ÷ÖÐ"½ö"±£´æ¹ýÂËºóµÄÄÚÈÝ
-     * @name    getRequest
-     * @param   antc $o
-     * @access  static
-     * @return  antr     requestÇëÇó¶ÔÏó,Ê§°Ü·µ»Øfalse
+     * @param $o
+     * @return antr
      */
     public static function getRequest($o)
     {
@@ -208,13 +202,6 @@ class ant
         self::$msg_function = $func;
     }
 
-    /**
-     * ×Ô¶¯µ÷ÓÃ×¢²á¹ýµÄÏûÏ¢º¯Êý£¬²¢×èÖ¹Íâ²ã¿ØÖÆÆ÷Õ¹Ê¾ÊÓÍ¼
-     * @static
-     * @param  $msg
-     * @param int $status
-     * @return
-     */
     public static function message($msg, $status = 200)
     {
         $a = debug_backtrace();
@@ -259,19 +246,21 @@ class ant
     {
         self::$error->printErrorStack();
     }
-    
+
     public function getAppConfig()
     {
-        $config = parse_ini_file(APP_CONFIG,true);        
+        $config = parse_ini_file(APP_CONFIG, true);
         return $config;
     }
 
-    public function getDbConfig(){
+    public function getDbConfig()
+    {
         $rs = $this->getAppConfig();
         return $rs['db_info'];
     }
 
-    public function getCacheConfig(){
+    public function getCacheConfig()
+    {
         $rs = $this->getAppConfig();
         return $rs['cache_info'];
     }
