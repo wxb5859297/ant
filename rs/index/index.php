@@ -1,4 +1,8 @@
 <?php
+/**
+ * index demo
+ * Class rs_index_index
+ */
 
 class rs_index_index extends antc
 {
