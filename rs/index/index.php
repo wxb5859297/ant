@@ -1,6 +1,7 @@
 <?php
 /**
  * index demo
+ * test
  * Class rs_index_index
  */
 
