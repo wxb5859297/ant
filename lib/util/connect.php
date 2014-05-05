@@ -1,15 +1,14 @@
 <?php
 /**
- * Á¬½Ó·½·¨¼¯ºÏ
+ * å¯¹ä¸€äº›å¯¹å¤–è¿æ¥çš„å°è£…
  * @author wuxiabing
- * @date 13-8-7 ÏÂÎç9:50
  */
 
 class lib_util_connect
 {
 
     /**
-     * ÇëÇó·½·¨
+     * åˆ©ç”¨curlå‘èµ·requestè¯·æ±‚
      * @param  $url
      * @param string $request_type
      * @param array $param
@@ -24,8 +23,8 @@ class lib_util_connect
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         if (strtolower($request_type) == 'post') {
-            curl_setopt($ch, CURLOPT_POST, 1); //ÆôÓÃPOSTÌá½»
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $param); //ÉèÖÃPOSTÌá½»µÄ×Ö·û´®
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
         }
         $result_content = curl_exec($ch);
         $result_code = curl_errno($ch);
@@ -39,8 +38,9 @@ class lib_util_connect
         return array('result_code' => $result_code, 'result_content' => $result_content);
     }
 
-    /**windowsÏÂÃæÎŞ·¨Ê¹ÓÃ£¬curl_multi_selectÓĞbug,Ö»ÄÜÔÚlinuxÏÂÊ¹ÓÃ
-     * ¶àurl²¢·¢ÇëÇó
+    /*
+     * windowsä¸‹é¢æ— æ³•ä½¿ç”¨ï¼Œcurl_multi_selectæœ‰bug,åªèƒ½åœ¨linuxä¸‹ä½¿ç”¨
+     * å¤šè¯·æ±‚å¹¶å‘æ“ä½œ
      * @param array $urls
      * @param int $timeout
      * @return array
@@ -60,7 +60,7 @@ class lib_util_connect
             ));
             curl_multi_add_handle($mh, $ch[$k]);
         }
-        // Ö´ĞĞÅú´¦Àí¾ä±ú
+        //æ‰§è¡Œæ‰¹å¤„ç†å¥æŸ„
         do {
             $mrc = curl_multi_exec($mh, $running);
         } while (CURLM_CALL_MULTI_PERFORM == $mrc);
@@ -73,16 +73,16 @@ class lib_util_connect
             }
         }
 
-        //È¡Êı¾İ
+        //å–æ•°æ®
         foreach ($urls as $k => $url) {
             $result_code = curl_errno($ch[$k]);
             if ($result_code) {
                 $result[$k] = array(
                     'return_code' => $result_code,
                     'return_content' => 'Curl errno: ' . $result_code .
-                        '; Curl error: ' . curl_error($ch[$k]) .
-                        '; Curl time: ' . curl_getinfo($ch[$k], CURLINFO_TOTAL_TIME) .
-                        '; Http code: ' . curl_getinfo($ch[$k], CURLINFO_HTTP_CODE)
+                    '; Curl error: ' . curl_error($ch[$k]) .
+                    '; Curl time: ' . curl_getinfo($ch[$k], CURLINFO_TOTAL_TIME) .
+                    '; Http code: ' . curl_getinfo($ch[$k], CURLINFO_HTTP_CODE)
                 );
             } else {
                 $result[$k] = array(
@@ -98,6 +98,7 @@ class lib_util_connect
     }
 
     /**
+     * socketè¿æ¥ï¼Œä¸€èˆ¬ä¸ç”¨ï¼Œä½¿ç”¨curlå³å¯ï¼Œé™¤ééœ€è¦socketé€šä¿¡ï¼Œéœ€è¦å…¶ä»–å°è£…
      * @param $host
      * @param int $port
      * @param $path

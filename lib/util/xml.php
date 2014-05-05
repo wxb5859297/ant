@@ -2,7 +2,7 @@
 /**
  * xml操作集合
  * @author wuxiabing
- * @date 12-5-11 下午4:36
+ *
  */
 
 class lib_util_xml

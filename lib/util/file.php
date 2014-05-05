@@ -1,13 +1,14 @@
 <?php
-/**ÎÄ¼þ²Ù×÷
+/**
+ * æ–‡ä»¶æ“ä½œ
  * @author wuxiabing
- * @date 12-5-11 ÍíÉÏ10:30
  */
 
 class lib_util_file
 {
 
-    /**¶ÁÈ¡ÎÄ¼þ²Ù×÷
+    /**
+     * è¯»å–æ–‡ä»¶æ“ä½œ
      * @param $file
      * @param int $length
      * @param array $extra
@@ -47,7 +48,7 @@ class lib_util_file
     }
 
     /**
-     * ·Ö¸î×Ö·û´®
+     * åˆ†å‰²å­—ç¬¦ä¸²
      */
     static function splitString()
     {

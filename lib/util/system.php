@@ -1,16 +1,15 @@
 <?php
-/**系统监控工具
+/**
+ * 绯荤粺鐩戞帶宸ュ叿
  * @author wuxiabing
- * @date 12-8-5 下午10:44
  *
- * todo 之后再做
  */
 
 class lib_util_system
 {
 
     /**
-     * 获取cpu信息
+     * 鑾峰彇cpu淇℃伅
      */
     static function getCpu()
     {
@@ -18,7 +17,7 @@ class lib_util_system
     }
 
     /**
-     * 获取网络信息
+     * 鑾峰彇缃戠粶淇℃伅
      */
     static function getNetWork()
     {
@@ -26,7 +25,7 @@ class lib_util_system
     }
 
     /**
-     * 获取负载信息
+     * 鑾峰彇璐熻浇淇℃伅
      */
     static function getLoad()
     {
@@ -34,7 +33,7 @@ class lib_util_system
     }
 
     /**
-     * 获取磁盘信息
+     * 鑾峰彇纾佺洏淇℃伅
      */
     static function getDisk()
     {
@@ -42,7 +41,7 @@ class lib_util_system
     }
 
     /**
-     * 获取进程信息
+     * 鑾峰彇杩涚▼淇℃伅
      */
     static function getProcess()
     {
@@ -50,7 +49,7 @@ class lib_util_system
     }
 
     /**
-     * 获取内存信息
+     * 鑾峰彇鍐呭瓨淇℃伅
      */
     static function getMemory()
     {
@@ -58,7 +57,7 @@ class lib_util_system
     }
 
     /**
-     * 获取系统信息
+     * 鑾峰彇绯荤粺淇℃伅
      */
     static function getSystem()
     {
@@ -66,7 +65,7 @@ class lib_util_system
     }
 
     /**
-     * 执行系统命令
+     * 执鎵ц绯荤粺鍛戒护
      */
     static function execCommand($command)
     {
@@ -78,7 +77,7 @@ class lib_util_system
     }
 
     /**
-     * 创建进程，以damon形式运行
+     * 鍒涘缓杩涚▼锛屼互damon褰㈠紡杩愯
      */
     static function createProcess()
     {

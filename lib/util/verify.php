@@ -2,7 +2,6 @@
 /**
  * 验证类
  * @author wuxiabing
- * @date 13-8-5 晚上11:30
  */
 
 class lib_util_verify

@@ -1,22 +1,35 @@
 <?php
 /**
- * arrayÊı×é²Ù×÷
+ * æ•°ç»„æ“ä½œ
  * @author wuxiabing
- * @date 13-8-5 ÍíÉÏ9:17
+ *
+ * å¤šç»´array
+ * åˆå¹¶ã€æ‹†åˆ†ã€æŸ¥æ‰¾ã€æ›¿æ¢ã€æ’å…¥ã€æ’åºã€å–å€¼
  */
 
 class lib_util_array
 {
 
-    /**¶àÎ¬Êı×é¶àÁĞÅÅĞò
-     * ¶àÁĞµÄkeyÓĞĞ©»¹²»ÄÜ×öÎªphpµÄ±äÁ¿Ãû,ËùÒÔĞèÒªtemp*Î±×°Ğ©±äÁ¿
+    /**å¤šç»´æ•°ç»„å¤šåˆ—æ’åº
+     * è¿™ä¸ªåœ°æ–¹å‘çˆ¹çš„ï¼Œå¤šåˆ—çš„keyæœ‰äº›è¿˜ä¸èƒ½åšä¸ºphpçš„å˜é‡å
      * @param array $data
      * @param array $sort_data
-     * @return array
-     * @notice ´Ë´¦²»ÄÜÊ¹ÓÃcallÈ¥µ÷ÓÃ£¬ÔÚphp5.3ÖĞ»á±¨ÒıÓÃ´íÎó, 5.2/5.4ÖĞÕı³££¬ÆäËû°æ±¾Î´³¢ÊÔ
-     * ÏÖÔÚÊ¹ÓÃºÜ´ìµÄevalÀ´½â¾ö
+     * @return array|boolean
+     * @notice æ­¤å¤„ä¸èƒ½ä½¿ç”¨callå»è°ƒç”¨ï¼Œåœ¨php5.3ä¸­ä¼šæŠ¥å¼•ç”¨é”™è¯¯, 5.2/5.4ä¸­æ­£å¸¸ï¼Œå…¶
+    ä»–ç‰ˆæœ¬æœªå°è¯•
+     * ç°åœ¨ä½¿ç”¨å¾ˆæŒ«çš„evalæ¥è§£å†³
      * call_user_func_array('array_multisort',$arguments);
+     * $data = array(
+     *  array(1,234,'t'=>41),
+     *  array(1,232,'t'=>42),
+     *  array(1,233,'t'=>43),
+     *  array(1,233,'t'=>45),
+     *  );
+     * $sort_data = array(
+     *  1=>'desc','t'=>'desc',
+     * );
      */
+
     static function sortMultiData($data, $sort_data)
     {
         if (!empty($data) && is_array($data) && !empty($sort_data) && is_array($sort_data)) {
@@ -47,7 +60,7 @@ class lib_util_array
                     $arguments[] = $v[$v['temp_data_key']];
                     $arguments[] = (strtolower($v['temp_sortby']) == 'desc') ? SORT_DESC : SORT_ASC;
                 }
-                $arguments[] = & $data; //Õâ¸öµØ·½±È½ÏÌØÊâ£¬ĞèÒª¼ÓÉÏÒıÓÃ"&"
+                $arguments[] = & $data; //è¿™ä¸ªåœ°æ–¹æ¯”è¾ƒç‰¹æ®Šï¼Œéœ€è¦åŠ ä¸Šå¼•ç”¨"&"
                 if (count($sort_data) > 0 && !empty($arguments)) {
                     $exec_string = 'array_multisort(';
                     foreach ($arguments as $k => $v) {
@@ -65,76 +78,72 @@ class lib_util_array
     }
 
     /*
-     * ¶àÎ¬Êı×éÅÅĞò£¬°´¸ø¸ö¼üÃû
-     * ²»ÓÃarray_multisortÊµÏÖ,Ê±¼ä¸´ÔÓ¶È 2*O(n)
      * @param array $data
      * @param array $sort_data
      * @return array
      */
-    static function sortMultiNum($data,$key,$type = 'desc')
+    static function sortMultiNum($data, $key, $type = 'desc')
     {
-        if(!empty($data) && is_array($data)){
+        if (!empty($data) && is_array($data)) {
             $item = self::rand($data);
-            if(!isset($item[$key])){
+            if (!isset($item[$key])) {
                 return $data;
             }
             $count = $category = array();
-            foreach($data as $k=>$v){
+            foreach ($data as $k => $v) {
                 $category[$v[$key]][] = $v;
-                if(isset($count[$v[$key]])){
+                if (isset($count[$v[$key]])) {
                     $count[$v[$key]]++;
-                }else{
+                } else {
                     $count[$v[$key]] = 1;
-                } 
+                }
             }
-            if($type == 'desc'){
+            if ($type == 'desc') {
                 arsort($count);
-            }else{
+            } else {
                 asort($count);
             }
             $data = array();
-            foreach($count as $k=>$v){
-                foreach($category[$k] as $v2){
+            foreach ($count as $k => $v) {
+                foreach ($category[$k] as $v2) {
                     $data[] = $v2;
                 }
             }
         }
         return $data;
-    } 
+    }
 
     /*
-     * ¶àÎ¬Êı×éÅÅĞò£¬°´¸ø¸ö¼üÃû
-     * ´Ë·½·¨£¬ÔÚÄ³Ğ©Çé¿öÎŞ·¨Ê¹ÓÃ£¬Òò´ËÁíÍâÔö¼ÓÏàÍ¬¹¦ÄÜµÄ·½·¨£¬²»ÓÃarray_multisortÊµÏÖ
      * @param array $data
      * @param array $sort_data
      * @return array
      */
-    static function sortMultiCount($data,$key,$type = 'desc')
+    static function sortMultiCount($data, $key, $type = 'desc')
     {
-        if(!empty($data) && is_array($data)){
+        if (!empty($data) && is_array($data)) {
             $item = self::rand($data);
-            if(!isset($item[$key])){
+            if (!isset($item[$key])) {
                 return $data;
             }
             $count_array = array();
             foreach ($data as $k => $v) {
-                if(isset($count_array[$v[$key]])){
+                if (isset($count_array[$v[$key]])) {
                     $count_array[$v[$key]]++;
-                }else{
+                } else {
                     $count_array[$v[$key]] = 1;
                 }
             }
-            foreach($data as $k => $v) {
-                $col[$k] = $count_array[$v[$key]];//°´Öµ³öÏÖµÄ´ÎÊıÅÅĞò¡£
+            foreach ($data as $k => $v) {
+                $col[$k] = $count_array[$v[$key]];
             }
             $type = ($type == 'desc') ? SORT_DESC : SORT_ASC;
             array_multisort($col, $type, $data);
         }
         return $data;
-    } 
+    }
+
     /**
-     * todo ĞèÒªĞ´µÄ¸ü½¡×³Ğ©
-     * ²åÈëÊı×éÔªËØ
+     * æ’å…¥
      */
     static function insert($data, $pos, $value)
     {
@@ -160,7 +169,8 @@ class lib_util_array
         return $data;
     }
 
-    /**ºÏ²¢Êı×é£¬½øĞĞÉî¡¢Ç³±éÀú¸²¸Ç²ÎÊı
+    /**
+     * åˆå¹¶æ•°ç»„ï¼Œè¿›è¡Œæ·±ã€æµ…éå†è¦†ç›–å‚æ•°
      * @param array $arr1
      * @param array $arr2
      * @param bool $deep
@@ -169,7 +179,7 @@ class lib_util_array
     static function merge(array $arr1, array $arr2, $deep = true)
     {
         $result = array();
-        if ($deep) { //Éî¶È±éÀú
+        if ($deep) { //æ·±åº¦éå†
             foreach ($arr1 as $k => $v) {
                 if (isset($arr2[$k])) {
                     if (is_array($v)) {
@@ -196,8 +206,8 @@ class lib_util_array
         return $result;
     }
 
-    /**¸ù¾İÊıÖµ·Ö¸îÊı×é
-     * ¸ÃÊı×éÊÇÒ»Î¬µÄ£¬ÇĞ¸îºó±ä³É¶şÎ¬   
+    /**
+     * æ ¹æ®æ•°å€¼åˆ†å‰²æ•°ç»„
      * @param $data
      * @param $split_num
      * @return array
@@ -223,23 +233,24 @@ class lib_util_array
     }
 
     /**
-     * Ëæ»úÊı×é£¬¸ù¾İËæ»úÊıÁ¿£¬È¡³öËæ»úÔªËØ
-     * array_rand()º¯ÊıÖ»ÄÜÈ¡³ö¼üÃû
-     * ÎÒÊÇÀÁÈË£¬ËùÒÔÖ±½ÓÓÃËæ»ú³ö¼üÖµ
+     * éšæœºå–å€¼
+     * array_rand()éšæœºå–å€¼
+     * æœ‰ç‚¹æ‡’ï¼Œä¸å–œæ¬¢randå‡ºkeyï¼Œç›´æ¥randå‡ºvalue
      */
-    static function rand(array $data,$num = 1){
-        if(!empty($data) && $num >=1){
+    static function rand(array $data, $num = 1)
+    {
+        if (!empty($data) && $num >= 1) {
             $num = (int)$num;
-            if($num >= count($data)){
+            if ($num >= count($data)) {
                 return $data;
             }
-            if($num == 1){
+            if ($num == 1) {
                 $key = array_rand($data);
                 return $data[$key];
-            }else{
+            } else {
                 $result = array();
-                $keys = array_rand($data,$num);
-                foreach($keys as $v){
+                $keys = array_rand($data, $num);
+                foreach ($keys as $v) {
                     $result[] = $data[$v];
                 }
                 return $result;
@@ -249,35 +260,39 @@ class lib_util_array
     }
 
     /**
-     * ¸ü»»Êı×éÖĞµÄ¼üÃû
-     * ·ÖÉî¡¢Ç³Á½ÖÖÌæ»»
-     * ·Ö±£Áô¡¢²»±£Áô¼üÃûÁ½ÖÖÌæ»»
+     * æ›¿æ¢keyæ“ä½œ
+     * åˆ†æ·±ã€æµ…ä¸¤ç§æ›¿æ¢ï¼›
+     * æ·±æ›¿æ¢ï¼šé€’å½’æ›¿æ¢æ‰€æœ‰key
+     * æµ…æ›¿æ¢ï¼šæ›¿æ¢æœ€å¤–ä¸€å±‚key
      */
-    static function replaceKey(array $data, $ori_key, $replace_key, $save = true, $deep = true){
-        if(!empty($data) && $ori_key && $replace_key){
-            if($deep){
-                foreach($data as $k=>$v){
-                    if($k == $ori_key){
-                        if($save){
-                            $data[$replace_key] = $v;
-                        }else{
+    static function replaceKey(array $data, $ori_key, $replace_key, $save = true, $deep = true)
+    {
+        if (!empty($data) && isset($ori_key) && $replace_key) {
+            if ($deep) {
+                foreach ($data as $k => $v) {
+                    if ($k === $ori_key) {
+                        if ($save === false) {
                             unset($data[$k]);
+                        }
+                        if (is_array($v)) {
+                            $data[$replace_key] = self::replaceKey($v, $ori_key, $replace_key, $save, $deep);
+                        } else {
                             $data[$replace_key] = $v;
                         }
-                    }else{
-                        if(is_array($v)){
-                            $data[$k] = self::replaceKey($v,$ori_key,$replace_key,$save,$deep);
+                    } else {
+                        if (is_array($v)) {
+                            $data[$k] = self::replaceKey($v, $ori_key, $replace_key, $save, $deep);
                         }
                     }
-                } 
-            }else{
-                if(isset($data[$ori_key])){
+                }
+            } else {
+                if (isset($data[$ori_key])) {
                     $ori_temp_data = $data[$ori_key];
-                    if($save){
-                        $data[$replace_key] = $ori_temp_data; 
-                    }else{
+                    if ($save) {
+                        $data[$replace_key] = $ori_temp_data;
+                    } else {
                         unset($data[$ori_key]);
-                        $data[$replace_key] = $ori_temp_data; 
+                        $data[$replace_key] = $ori_temp_data;
                     }
                 }
             }
@@ -286,15 +301,36 @@ class lib_util_array
     }
 
     /**
-     * Ìæ»»¼üÖµ£¬·ÖÉî¡¢Ç³Á½ÖÖÌæ»»
+     * å€¼æ›¿æ¢ï¼Œåˆ†æ·±ã€æµ…ä¸¤ç§
+     * æ·±æ›¿æ¢ï¼Œé€’å½’æŸ¥è¯¢åˆ°å¯¹åº”çš„å€¼è¿›è¡Œæ›¿æ¢
+     * æµ…æ›¿æ¢ï¼Œå¯¹æœ€å¤–å±‚çš„å€¼è¿›è¡Œæ›¿æ¢
      */
-    static function replaceValue(array $data, $ori_value, $replace_value, $deep = true){
-
+    static function replaceValue(array $data, $ori_value, $replace_value, $deep = true)
+    {
+        if (!empty($data) && isset($ori_value) && isset($replace_value)) {
+            if ($deep) {
+                foreach ($data as $k => $v) {
+                    if ($v === $ori_value) {
+                        $data[$k] = $replace_value;
+                    } else {
+                        if (is_array($v)) {
+                            $data[$k] = self::replaceValue($v, $ori_value, $replace_value, $deep);
+                        }
+                    }
+                }
+            } else {
+                foreach ($data as $k => $v) {
+                    if ($v === $ori_value) {
+                        $data[$k] = $replace_value;
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
     /**
-     * »ñÈ¡Êı×éÖĞÄ³Ò»¸ö½ÚµãµÄ¼üÖµ
-     * ¶àÓÃÓÚ¶şÎ¬Êı×é»ñÈ¡½ÚµãÖµ
+     * è·å–æŸä¸ªèŠ‚ç‚¹çš„å€¼
      */
     static function getNode(array $data, $row, $col)
     {

@@ -1,13 +1,13 @@
 <?php
 /**
- * ³£ÓÃ·½·¨¼¯ºÏ
+ * ä¸€äº›ç®€å•é€šç”¨åŠŸèƒ½å°è£…
  * @author wuxiabing
- * @date 12-5-11 ÏÂÎç4:36
  */
 
 class lib_util_common
 {
-    /**»ñÈ¡IP
+    /**
+     * è·å–IP
      * @static
      * @return string
      */
@@ -21,21 +21,16 @@ class lib_util_common
         return $ip;
     }
 
-    /**²âÊÔIPÊÇ·ñÕıÈ·
-     * @static
-     * @return bool true/false
+    /**
+     * åˆ¤æ–­æ˜¯å¦æ˜¯ä¸€ä¸ªIPV4åœ°å€
      */
     static function ipIsTrue($ip)
     {
         return (preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $ip)) ? true : false;
     }
 
-    /**×ªÂë·½·¨£¬ÓÃÀ´×ª³Égbk
-     * @static
-     * @param null $data
-     * @param string $from_charset
-     * @param string $to_charset
-     * @return mix
+    /*
+     * è½¬æˆgbkç¼–ç 
      */
     static function toGBK($data = null, $from_charset = 'utf-8', $to_charset = 'gbk')
     {
@@ -54,25 +49,23 @@ class lib_util_common
         return $data;
     }
 
-    /**×ªÂë·½·¨£¬ÓÃÀ´×ª³Éutf8
-     * @static
-     * @param  $val
-     * @param string $from_charset
-     * @return array|null|string
+    /*
+     * è½¬æˆutf8ç¼–ç 
      */
     static function toUTF8($data, $from_charset = 'gbk')
     {
         return self::toGBK($data, $from_charset, 'utf-8');
     }
 
-    /** ´Ë·½·¨ÓÃÀ´»ñÈ¡Æ´´ÕºÃµÄurl
+    /**
+     * è·å–å®Œæ•´çš„url
      * @static
      * @param string $url
      * @param array $params
-     * @param boolean $is_cover //ÊÇ·ñ¸²¸Ç±êÊ¶£¬true½«»á$paramsÖĞ¸ú$urlÖĞÍ¬ÃûµÄ²ÎÊı¸²¸Ç
+     * @param boolean $is_cover æ˜¯å¦è¦†ç›–urlä¸­çš„å‚æ•°ï¼Œé»˜è®¤è¦†ç›–
      * @return string
      */
-    static function  getUrl($url = '', $params = array(), $is_cover = true)
+    static function getUrl($url = '', $params = array(), $is_cover = true)
     {
         if ($url) {
             if (!empty($params) && is_array($params)) {
@@ -87,11 +80,11 @@ class lib_util_common
                     parse_str($arr['query'], $p);
                 }
                 if (!empty($p)) {
-                    if ($is_cover) { //¸²¸Ç£¬$paramsÖĞµÄ²ÎÊı¸²¸Ç$pÖĞ
+                    if ($is_cover) {
                         foreach ($p as $k => $v) {
                             $params[$k] = isset($params[$k]) ? $params[$k] : $v;
                         }
-                    } else { //½«$pÈ¥¸²¸Ç$paramsÖĞ
+                    } else {
                         foreach ($p as $k => $v) {
                             $params[$k] = $v;
                         }
@@ -107,10 +100,8 @@ class lib_util_common
         return $url;
     }
 
-    /**¸ñÊ½»¯Êı¾İ
-     * @static
-     * @param  $str
-     * @return mixed
+    /**
+     * è·å–é»˜è®¤å€¼
      */
     static function formatString($str, $default = '')
     {
@@ -118,32 +109,7 @@ class lib_util_common
     }
 
     /**
-     * SetGET
-     * @access static
-     * @param array $key ¼üÃû
-     * @return string
-     */
-    static function _GET($key, $default = '')
-    {
-        return isset($_GET[$key]) ? self::filterXss($_GET[$key]) : $default;
-    }
-
-    /**
-     * SetPOST
-     * @access static
-     * @param array $key ¼üÃû
-     * @return string
-     */
-    static function _POST($key, $default = '')
-    {
-        return isset($_POST[$key]) ? self::filterXss($_POST[$key]) : $default;
-    }
-
-    /**
      * SetGP
-     * @access static
-     * @param array $key ¼üÃû
-     * @return string
      */
     static function getGP($key, $default = '', $xss = 1)
     {
@@ -163,7 +129,8 @@ class lib_util_common
         return $value;
     }
 
-    /**ÓÃÀ´¹ıÂËxss
+    /**
+     * è¿‡æ»¤xss
      * @static
      * @param  $str
      * @return mixed
@@ -175,7 +142,8 @@ class lib_util_common
         return preg_replace('/[\<\>\!\[\]\{\}\(\)\;\\\]/i', '', $str);
     }
 
-    /**ÓÃÀ´¹ıÂËhttp
+    /**
+     * è¿‡æ»¤http
      * @static
      * @param  $str
      * @return mixed
@@ -186,7 +154,8 @@ class lib_util_common
         return preg_replace('/[\<\>\!\[\]\{\}\(\)\;\\\]/i', '', $str);
     }
 
-    /**ÓÃÀ´¹ıÂËGPC
+    /**
+     * è¿‡æ»¤GPC
      * @static
      * @param
      * @return mixed
@@ -196,9 +165,11 @@ class lib_util_common
         foreach ($_GET as $key => $value) {
             $_GET[$key] = self::filterXss($value);
         }
-
         foreach ($_POST as $key => $value) {
             $_POST[$key] = self::filterXss($value);
+        }
+        foreach ($_COOKIE as $key => $value) {
+            $_COOKIE[$key] = self::filterXss($value);
         }
     }
 

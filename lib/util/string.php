@@ -1,19 +1,17 @@
 <?php
 /**
- * file: string.php
- * Author: wuxiabing
- * Date: 13-8-19 Time: 上午9:54
- * Email: wuxiabing@myhexin.com
+ * 字符串操作
+ * @author: wuxiabing
  */
 
 class lib_util_string
 {
-    static function splitStringByRow($string)
+    static function splitByRow($string)
     {
-        return self::splitStringByWord($string, "\r\n");
+        return self::splitByWord($string, "\r\n");
     }
 
-    static function splitStringByPattern($string, $pattern)
+    static function splitByPattern($string, $pattern)
     {
         if ($string && $pattern) {
             return preg_split($pattern, $string);
@@ -22,7 +20,7 @@ class lib_util_string
         }
     }
 
-    static function splitStringByWord($string, $word)
+    static function splitByWord($string, $word)
     {
         if ($string && $word) {
             return explode($word, $string);
