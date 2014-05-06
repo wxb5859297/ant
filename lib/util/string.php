@@ -6,12 +6,12 @@
 
 class lib_util_string
 {
-    static function splitByRow($string)
+    public static function splitByRow($string, $p = "\r\n")
     {
-        return self::splitByWord($string, "\r\n");
+        return self::splitByWord($string, $p);
     }
 
-    static function splitByPattern($string, $pattern)
+    public static function splitByPattern($string, $pattern)
     {
         if ($string && $pattern) {
             return preg_split($pattern, $string);
@@ -20,7 +20,7 @@ class lib_util_string
         }
     }
 
-    static function splitByWord($string, $word)
+    public static function splitByWord($string, $word)
     {
         if ($string && $word) {
             return explode($word, $string);
@@ -29,4 +29,15 @@ class lib_util_string
         }
     }
 
+    /**
+     * 截取字符串操作
+     */
+    public static function sub($str = '', $len = 32, $charset = 'utf-8', $endStr = '…')
+    {
+        $extra = '';
+        if (iconv_strlen($str, $charset) > $len) {
+            $extra = $endStr;
+        }
+        return iconv_substr($str, 0, $len, $charset) . $extra;
+    }
 }

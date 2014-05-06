@@ -8,15 +8,13 @@ class lib_util_common
 {
     /**
      * 获取IP
-     * @static
-     * @return string
      */
-    static function returnIp()
+    public static function returnIp()
     {
         if ($_SERVER['REMOTE_ADDR'] && self::ipIsTrue($_SERVER['REMOTE_ADDR'])) {
             $ip = trim($_SERVER['REMOTE_ADDR']);
         } else {
-            $ip = '-1';
+            $ip = false;
         }
         return $ip;
     }
@@ -24,7 +22,7 @@ class lib_util_common
     /**
      * 判断是否是一个IPV4地址
      */
-    static function ipIsTrue($ip)
+    public static function ipIsTrue($ip)
     {
         return (preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $ip)) ? true : false;
     }
@@ -32,7 +30,7 @@ class lib_util_common
     /*
      * 转成gbk编码
      */
-    static function toGBK($data = null, $from_charset = 'utf-8', $to_charset = 'gbk')
+    public static function toGBK($data = null, $from_charset = 'utf-8', $to_charset = 'gbk')
     {
         if (empty($data)) return null;
 
@@ -52,20 +50,15 @@ class lib_util_common
     /*
      * 转成utf8编码
      */
-    static function toUTF8($data, $from_charset = 'gbk')
+    public static function toUTF8($data, $from_charset = 'gbk')
     {
         return self::toGBK($data, $from_charset, 'utf-8');
     }
 
     /**
      * 获取完整的url
-     * @static
-     * @param string $url
-     * @param array $params
-     * @param boolean $is_cover 是否覆盖url中的参数，默认覆盖
-     * @return string
      */
-    static function getUrl($url = '', $params = array(), $is_cover = true)
+    public static function getUrl($url = '', $params = array(), $is_cover = true)
     {
         if ($url) {
             if (!empty($params) && is_array($params)) {
@@ -81,20 +74,12 @@ class lib_util_common
                 }
                 if (!empty($p)) {
                     if ($is_cover) {
-                        foreach ($p as $k => $v) {
-                            $params[$k] = isset($params[$k]) ? $params[$k] : $v;
-                        }
+                        $params = array_merge($p, $params);
                     } else {
-                        foreach ($p as $k => $v) {
-                            $params[$k] = $v;
-                        }
+                        $params = array_merge($params, $p);
                     }
                 }
-                $url = $u . '?';
-                foreach ($params as $k => $v) {
-                    $url .= $k . '=' . urlencode($v) . '&';
-                }
-                $url = substr($url, 0, strlen($url) - 1);
+                $url = $u . '?' . http_build_query($params);
             }
         }
         return $url;
@@ -103,15 +88,15 @@ class lib_util_common
     /**
      * 获取默认值
      */
-    static function formatString($str, $default = '')
+    public static function formatString($str, $default = '')
     {
         return isset($str) ? $str : $default;
     }
 
     /**
-     * SetGP
+     *
      */
-    static function getGP($key, $default = '', $xss = 1)
+    public static function getGP($key, $default = '', $xss = 1)
     {
         if (isset($_POST[$key])) {
             $value = isset($_POST[$key]) ? $_POST[$key] : $default;
@@ -131,11 +116,8 @@ class lib_util_common
 
     /**
      * 过滤xss
-     * @static
-     * @param  $str
-     * @return mixed
      */
-    static function filterXss($str)
+    public static function filterXss($str)
     {
         $str = str_replace(array('"', "'", '/'), '', $str);
         $str = htmlspecialchars($str);
@@ -144,11 +126,8 @@ class lib_util_common
 
     /**
      * 过滤http
-     * @static
-     * @param  $str
-     * @return mixed
      */
-    static function filterHttp($str)
+    public static function filterHttp($str)
     {
         $str = str_replace(array('"', "'"), '', $str);
         return preg_replace('/[\<\>\!\[\]\{\}\(\)\;\\\]/i', '', $str);
@@ -156,11 +135,8 @@ class lib_util_common
 
     /**
      * 过滤GPC
-     * @static
-     * @param
-     * @return mixed
      */
-    static function filterGpc()
+    public static function filterGpc()
     {
         foreach ($_GET as $key => $value) {
             $_GET[$key] = self::filterXss($value);

@@ -7,12 +7,12 @@
 
 class lib_util_xml
 {
-    static function xmlToArray($xml)
+    public static function toArray($xml)
     {
         return json_decode(json_encode($xml), true);
     }
 
-    static function readXml($resource)
+    public static function readXml($resource)
     {
         if (is_file($resource)) {
             $result = simplexml_load_file($resource);
@@ -24,11 +24,11 @@ class lib_util_xml
         return $result;
     }
 
-    static function readXmlToArray($resource)
+    public static function readXmlToArray($resource)
     {
         $result = self::readXml($resource);
         if ($result !== false) {
-            $result = self::xmlToArray($result);
+            $result = self::toArray($result);
         }
         return $result;
     }
