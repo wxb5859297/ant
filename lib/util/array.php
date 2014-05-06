@@ -29,8 +29,7 @@ class lib_util_array
      *  1=>'desc','t'=>'desc',
      * );
      */
-
-    static function sortMultiData($data, $sort_data)
+    public static function sortMultiData($data, $sort_data)
     {
         if (!empty($data) && is_array($data) && !empty($sort_data) && is_array($sort_data)) {
             foreach ($sort_data as $k => $v) {
@@ -78,11 +77,18 @@ class lib_util_array
     }
 
     /*
-     * @param array $data
-     * @param array $sort_data
-     * @return array
+     * sortMultiNum($data, 't', 'desc');
+     * 按照数组中的数值大小排序，原先由array_multisort实现，现用自行算法实现，原先无法满足要求。
+     * 时间复杂度： 2*o(n)
+     *
+     * $data = array(
+     * array(1, 234, 't' => 41),
+     * array(1, 232, 't' => 42),
+     * array(1, 233, 't' => 43),
+     * array(1, 233, 't' => 45),
+     * );
      */
-    static function sortMultiNum($data, $key, $type = 'desc')
+    public static function sortMultiNum($data, $key, $type = 'desc')
     {
         if (!empty($data) && is_array($data)) {
             $item = self::rand($data);
@@ -90,7 +96,7 @@ class lib_util_array
                 return $data;
             }
             $count = $category = array();
-            foreach ($data as $k => $v) {
+            foreach ($data as $v) {
                 $category[$v[$key]][] = $v;
                 if (isset($count[$v[$key]])) {
                     $count[$v[$key]]++;
@@ -114,11 +120,20 @@ class lib_util_array
     }
 
     /*
-     * @param array $data
-     * @param array $sort_data
-     * @return array
+     * 桉数组中数值出现的次数排序
+     *
+     * $data = array(
+     * array(1, 234, 't' => 41),
+     * array(1, 232, 't' => 42),
+     * array(1, 232, 't' => 42),
+     * array(1, 233, 't' => 43),
+     * array(1, 233, 't' => 45),
+     * array(1, 233, 't' => 45),
+     * array(1, 233, 't' => 45),
+     * );
+     * sortMultiCount($data, 't', 'desc');
      */
-    static function sortMultiCount($data, $key, $type = 'desc')
+    public static function sortMultiCount($data, $key, $type = 'desc')
     {
         if (!empty($data) && is_array($data)) {
             $item = self::rand($data);
@@ -126,7 +141,7 @@ class lib_util_array
                 return $data;
             }
             $count_array = array();
-            foreach ($data as $k => $v) {
+            foreach ($data as $v) {
                 if (isset($count_array[$v[$key]])) {
                     $count_array[$v[$key]]++;
                 } else {
@@ -145,7 +160,7 @@ class lib_util_array
     /**
      * 插入
      */
-    static function insert($data, $pos, $value)
+    public static function insert($data, $pos, $value)
     {
         if ($data) {
             if (is_array($pos)) {
@@ -171,12 +186,8 @@ class lib_util_array
 
     /**
      * 合并数组，进行深、浅遍历覆盖参数
-     * @param array $arr1
-     * @param array $arr2
-     * @param bool $deep
-     * @return array
      */
-    static function merge(array $arr1, array $arr2, $deep = true)
+    public static function merge(array $arr1, array $arr2, $deep = true)
     {
         $result = array();
         if ($deep) { //深度遍历
@@ -208,11 +219,8 @@ class lib_util_array
 
     /**
      * 根据数值分割数组
-     * @param $data
-     * @param $split_num
-     * @return array
      */
-    static function split(array $data, $split_num)
+    public static function split(array $data, $split_num)
     {
         if (!empty($data) && ($split_num > 0) && is_array($data)) {
             $result = array();
@@ -227,7 +235,7 @@ class lib_util_array
         return $data;
     }
 
-    static function diff(array $arr1, array $arr2)
+    public static function diff(array $arr1, array $arr2)
     {
 
     }
@@ -237,7 +245,7 @@ class lib_util_array
      * array_rand()随机取值
      * 有点懒，不喜欢rand出key，直接rand出value
      */
-    static function rand(array $data, $num = 1)
+    public static function rand(array $data, $num = 1)
     {
         if (!empty($data) && $num >= 1) {
             $num = (int)$num;
@@ -265,7 +273,7 @@ class lib_util_array
      * 深替换：递归替换所有key
      * 浅替换：替换最外一层key
      */
-    static function replaceKey(array $data, $ori_key, $replace_key, $save = true, $deep = true)
+    public static function replaceKey(array $data, $ori_key, $replace_key, $save = true, $deep = true)
     {
         if (!empty($data) && isset($ori_key) && $replace_key) {
             if ($deep) {
@@ -305,7 +313,7 @@ class lib_util_array
      * 深替换，递归查询到对应的值进行替换
      * 浅替换，对最外层的值进行替换
      */
-    static function replaceValue(array $data, $ori_value, $replace_value, $deep = true)
+    public static function replaceValue(array $data, $ori_value, $replace_value, $deep = true)
     {
         if (!empty($data) && isset($ori_value) && isset($replace_value)) {
             if ($deep) {
@@ -330,9 +338,99 @@ class lib_util_array
     }
 
     /**
-     * 获取某个节点的值
+     * 删除数组中的key,不分深浅，直接深删除
      */
-    static function getNode(array $data, $row, $col)
+    public static function deleteKey($data, $key)
+    {
+        if (!empty($data) && is_array($data) && $key) {
+            foreach ($data as $k => $v) {
+                if ($k === $key) {
+                    unset($data[$k]);
+                } else {
+                    if (is_array($v)) {
+                        $data[$k] = self::deleteKey($v, $key);
+                    }
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 计算某个key的数组
+     */
+    public static function sumItem($data, $key)
+    {
+        $result = 0;
+        if (!empty($data) && is_array($data)) {
+            foreach ($data as $k => $v) {
+                if (is_array($v)) {
+                    $itemValue = self::sumItem($v, $key);
+                    $result += $itemValue;
+                } else {
+                    if (($k === $key) && is_numeric($v)) {
+                        $result = $result + $v;
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 搜索数组中的item
+     */
+    public static function searchItem($data, $key, $value)
+    {
+        $result = array();
+        if (is_array($data) && count($data) > 0) {
+            foreach ($data as $v) {
+                if (isset($v[$key]) && ($v[$key] === $value)) {
+                    $result = $v;
+                    break;
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 搜索数组中的item，并返回key/value
+     */
+    public static function searchNode($data, $key, $value)
+    {
+        if (is_array($data) && count($data) > 0) {
+            foreach ($data as $k => $v) {
+                if (isset($v[$key]) && ($v[$key] === $value)) {
+                    return array('key' => $k, 'value' => $v);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 搜索数组中的item，返回计数
+     */
+    public static function searchNodeCount($data, $key, $value)
+    {
+        $count = 0;
+        if (is_array($data) && count($data) > 0) {
+            foreach ($data as $v) {
+                if (isset($v[$key]) && ($v[$key] === $value)) {
+                    $count++;
+                }
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * 获取某个节点的值
+     * 某个二维数组，获取第一列，第一行数组
+     * lib_util_array::getNode($arr, 1, 1)
+     */
+    public static function getNode(array $data, $row, $col)
     {
         $result = null;
         if ($row >= 1 && $col >= 1 && !empty($data)) {
@@ -352,4 +450,5 @@ class lib_util_array
         }
         return $result;
     }
+
 }
