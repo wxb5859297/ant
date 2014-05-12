@@ -2,6 +2,8 @@
 /**
  * 文件操作
  * @author wuxiabing
+ *
+ * 提供读写操作
  */
 
 class lib_util_file
@@ -9,12 +11,8 @@ class lib_util_file
 
     /**
      * 读取文件操作
-     * @param $file
-     * @param int $length
-     * @param array $extra
-     * @return array|bool
      */
-    static function read($file, $length = 4096, $extra = array())
+    public static function read($file, $length = 4096, $extra = array())
     {
         if (file_exists($file)) {
             $base_file = basename($file);
@@ -29,8 +27,8 @@ class lib_util_file
                         }
                         break;
                     case 'csv':
-                        $separat = isset($extra['separat']) ? $extra['separat'] : ',';
-                        while (($buffer = fgetcsv($handle, $length, $separat)) !== false) {
+                        $separate = isset($extra['separate']) ? $extra['separate'] : ',';
+                        while (($buffer = fgetcsv($handle, $length, $separate)) !== false) {
                             $result[] = $buffer;
                         }
                         break;
@@ -42,19 +40,30 @@ class lib_util_file
         return false;
     }
 
-    static function rm()
-    {
-
-    }
-
     /**
-     * 分割字符串
+     * 删除目录
      */
-    static function splitString()
+    public static function rmdir($dir, $removeSelf = false)
     {
+        if ($handle = opendir($dir)) {
+            while (false !== ($item = readdir($handle))) {
+                if ($item != '.' && $item != '..') {
+                    $path = $dir . DS . $item;
+                    if (is_dir($path)) {
+                        self::rmdir($path, true);
+                    } else {
+                        unlink($path);
+                    }
+                }
+            }
+            closedir($handle);
+            if ($removeSelf) {
+                rmdir($dir);
+            }
+        }
     }
 
-    static function write($file, $string = '')
+    public static function write($file, $string = '')
     {
         if ($handle = fopen($file, 'a')) {
             if (is_writable($file) && file_exists($file)) {
@@ -65,5 +74,46 @@ class lib_util_file
             fclose($handle);
         }
         return false;
+    }
+
+    /**
+     * 用于返回当前文件夹下的所有文件
+     */
+    public static function getFiles($dir)
+    {
+        $files = array();
+        if (is_dir($dir)) {
+            if ($dirHandle = opendir($dir)) {
+                while ($file = readdir($dirHandle)) {
+                    if ($file == '.' || $file == '..') {
+                        continue;
+                    }
+                    array_push($files, $file);
+                }
+                closedir($dirHandle);
+            }
+        }
+        return $files;
+    }
+
+    /**
+     * 检测目录下是否为空
+     */
+    public static function hasFile($dir)
+    {
+        $ret = false;
+        if (is_dir($dir)) {
+            if ($dirHandle = opendir($dir)) {
+                while ($file = readdir($dirHandle)) {
+                    if ($file == '.' || $file == '..') {
+                        continue;
+                    }
+                    $ret = true;
+                    break;
+                }
+                closedir($dirHandle);
+            }
+        }
+        return $ret;
     }
 }

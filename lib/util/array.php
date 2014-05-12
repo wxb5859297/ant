@@ -28,6 +28,8 @@ class lib_util_array
      * $sort_data = array(
      *  1=>'desc','t'=>'desc',
      * );
+     *
+     * notice: 中文排序时，如果是utf8，先转成gbk，再排序，再转回utf8
      */
     public static function sortMultiData($data, $sort_data)
     {
