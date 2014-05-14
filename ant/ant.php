@@ -41,6 +41,7 @@ class ant
         if (!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
         if (!defined('PATH_ROOT')) define('PATH_ROOT', dirname($_SERVER['SCRIPT_FILENAME']) . DS);
         if (!defined('PATH_RS')) define('PATH_RS', PATH_ROOT . 'rs' . DS);
+        if (!defined('PATH_LIB')) define('PATH_LIB', PATH_ROOT . 'lib' . DS);
         if (!defined('PATH_CACHE')) define('PATH_CACHE', PATH_ROOT . 'cache' . DS);
         if (!defined('PATH_REQUEST')) define('PATH_REQUEST', PATH_ROOT . 'request' . DS);
         $view_name = (defined('VIEW_NAME')) ? VIEW_NAME : 'view';
